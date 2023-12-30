@@ -19,6 +19,7 @@ function display_items_hompage(){
   }
   let newHtml='';
   Object.values(item_map).forEach((item)=>{
+    console.log(item.id)
     newHtml+=`
               <div class="item-container">
                   <img src="${item.image}" class="item-image" alt="item image">
@@ -41,7 +42,12 @@ function display_items_hompage(){
                       <span class="discount">
                           (${item.discount_percentage}% OFF)
                       </span>
-                  </div>
+                  </div>`+(bagItems[eval(item.id)]?`
+                  <div class="quantity" >
+                    <button class="qualtity-button" onclick="decreaseQuentity(${item.id})">-</button>
+                    <span class="item-quality">${bagItems[eval(item.id)]}</span>
+                    <button class="qualtity-button" onclick="increaseQuantity(${item.id})">+</button>
+                  </div>`:'')+`
                   <button class="btn-add-bag" onclick="addToBag(${item.id})">
                       Add to Bag
                   </button>
@@ -52,6 +58,7 @@ function display_items_hompage(){
 addToBag = (itemId)=>{
   bagItems[itemId]=bagItems[itemId]?bagItems[itemId]+1:1;
   localStorage.setItem('bagItems',JSON.stringify(bagItems));
+  loadAll();
   displayBagIcon();
 }
 function displayBagIcon() {
@@ -64,4 +71,21 @@ function displayBagIcon() {
   } else {
     bagItemCountElement.style.visibility = 'hidden';
   }
+}
+function increaseQuantity(id){
+  bagItems[id]++;
+  localStorage.setItem('bagItems', JSON.stringify(bagItems));
+  loadAll();
+}
+function decreaseQuentity(id){
+  bagItems[id]--;
+  if(bagItems[id]<=0)removeFromBag(id);
+  localStorage.setItem('bagItems', JSON.stringify(bagItems));
+  loadAll();
+}
+function removeFromBag(itemId) {
+  delete bagItems[itemId];
+  localStorage.setItem('bagItems', JSON.stringify(bagItems));
+  loadAll();
+  
 }

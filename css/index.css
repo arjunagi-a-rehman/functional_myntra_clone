@@ -330,3 +330,19 @@ header {
 a.action_container:link {
     color:black;
 }
+
+.quantity{
+    margin: 2px;
+    margin-left: 38%;
+  }
+  .qualtity-button{
+    align-items: center;
+    text-align: center;
+    width: 15px;
+    background-color: white;
+    border: none;
+    margin: 1px;
+    font-size: 15px;
+    cursor: pointer;
+  
+  }
